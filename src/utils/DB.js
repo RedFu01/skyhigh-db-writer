@@ -33,5 +33,16 @@ export default class DB {
         })
     }
 
+    static upsert(collection, query, newData) {
+        return new Promise((resolve, reject) => {
+            db[collection].update(query, newData, { upsert: true }, (err) => {
+                console.log(err)
+                if (err) reject(err);
+                resolve(data);
+            })
+
+        })
+    }
+
 
 }

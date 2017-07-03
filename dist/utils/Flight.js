@@ -33,7 +33,6 @@ class Flight {
 
     addPoint(point) {
         this.data.path.push(point);
-        this.sort();
     }
 
     isLanded() {
@@ -64,6 +63,7 @@ class Flight {
     }
 
     export() {
+        this.sort();
         this.computeCover();
         return this.data;
     }

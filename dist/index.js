@@ -35,8 +35,9 @@ reader.on('error', err => {
 });
 
 reader.on('line', line => {
+    index++;
     const wayPoint = (0, _lineParser.parseLine)(line);
-    if (!doneFlights.includes(wayPoint.key)) {
+    if (isInBounds(wayPoint.lat, wayPoint.lng) && !doneFlights.includes(wayPoint.key)) {
         if (flights[wayPoint.key]) {
             flights[wayPoint.key].addPoint((0, _lineParser.entry2WayPoint)(wayPoint));
         } else {
@@ -63,6 +64,7 @@ reader.on('end', () => {
             }
         }, null, this);
     });
+    clearInterval(interval);
     console.log('Done');
 });
 
@@ -72,7 +74,7 @@ function writeFlight(flight) {
             case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return regeneratorRuntime.awrap(_DB2.default.insert(fileName, flight.export()));
+                return regeneratorRuntime.awrap(_DB2.default.insert('n_new2_' + fileName, flight.export()));
 
             case 3:
                 _context2.next = 8;
@@ -85,11 +87,22 @@ function writeFlight(flight) {
                 console.log(_context2.t0);
 
             case 8:
-                console.log(`inserted ${finishedIndex++} of ${index}`);
-
-            case 9:
             case 'end':
                 return _context2.stop();
         }
     }, null, this, [[0, 5]]);
 }
+
+const BOUNDS = {
+    minLat: 30,
+    maxLat: 65,
+    minLng: -55,
+    maxLng: -10
+};
+
+function isInBounds(lat, lng, bounds = BOUNDS) {
+    let { minLat, maxLat, minLng, maxLng } = bounds;
+    return lat && lng && lat <= maxLat && lat >= minLat && lng <= maxLng && lng >= minLng;
+}
+
+const interval = setInterval(() => console.log(`${index} lines processed, ${doneFlights.length} saved, ${Object.keys(flights).length} in queue`), 1000 * 30);
