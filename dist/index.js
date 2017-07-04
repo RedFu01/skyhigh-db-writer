@@ -74,7 +74,7 @@ function writeFlight(flight) {
             case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return regeneratorRuntime.awrap(_DB2.default.insert('n_new2_' + fileName, flight.export()));
+                return regeneratorRuntime.awrap(_DB2.default.insert(fileName, flight.export()));
 
             case 3:
                 _context2.next = 8;

@@ -29,7 +29,14 @@ function getPositionAtMoment(flight, moment) {
     }
 
     return {
-        lat: lastPos.pos.lat + (nextPos.pos.lat - lastPos.pos.lat) * (nextPos.ts - moment) / (nextPos.ts - lastPos.ts),
-        lng: lastPos.pos.lng + (nextPos.pos.lng - lastPos.pos.lng) * (nextPos.ts - moment) / (nextPos.ts - lastPos.ts)
+        pos: {
+            lat: lastPos.pos.lat + (nextPos.pos.lat - lastPos.pos.lat) * (nextPos.ts - moment) / (nextPos.ts - lastPos.ts),
+            lng: lastPos.pos.lng + (nextPos.pos.lng - lastPos.pos.lng) * (nextPos.ts - moment) / (nextPos.ts - lastPos.ts),
+        },
+        ts: moment,
+        track: lastPos.track + (nextPos.track - lastPos.track) * (nextPos.ts - moment) / (nextPos.ts - lastPos.ts),
+        altitude: lastPos.altitude + (nextPos.altitude - lastPos.altitude) * (nextPos.ts - moment) / (nextPos.ts - lastPos.ts),
+        horizontalSpeed: lastPos.horizontalSpeed + (nextPos.horizontalSpeed - lastPos.horizontalSpeed) * (nextPos.ts - moment) / (nextPos.ts - lastPos.ts),
+        verticalSpeed: lastPos.verticalSpeed + (nextPos.verticalSpeed - lastPos.verticalSpeed) * (nextPos.ts - moment) / (nextPos.ts - lastPos.ts),
     };
 }

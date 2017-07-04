@@ -47,7 +47,7 @@ reader.on('end', () => {
 
 async function writeFlight(flight) {
     try {
-        await DB.insert('n_new2_' + fileName, flight.export());
+        await DB.insert(fileName, flight.export());
     } catch (e) {
         console.log(e)
     }
